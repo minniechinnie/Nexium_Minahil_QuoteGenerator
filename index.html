@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+     <html lang="en">
+     <head>
+       <meta charset="UTF-8">
+       <meta name="viewport" content="width=device-width, initial-scale=1.0">
+       <title>Quote Generator</title>
+       <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+     </head>
+     <body class="bg-green-100 flex items-center justify-center min-h-screen">
+       <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
+         <h1 class="text-2xl font-bold mb-4 text-center">Quote Generator</h1>
+         <form id="quoteForm" class="mb-4 space-y-4">
+           <div>
+             <label for="topic" class="block text-sm font-medium text-gray-700">Enter Topic</label>
+             <input type="text" id="topic" name="topic" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm p-2" placeholder="e.g., Motivation">
+           </div>
+           <button type="submit" class="w-full bg-green-500 text-white p-2 rounded-md hover:bg-green-600">Generate Quotes</button>
+         </form>
+         <div id="quotes" class="space-y-4"></div>
+       </div>
+
+       <script>
+         const quotes = {
+           motivation: [
+             "The only way to do great work is to love what you do. - Steve Jobs",
+             "Believe you can and you're halfway there. - Theodore Roosevelt",
+             "Success is not final, failure is not fatal. - Winston Churchill"
+           ],
+           wisdom: [
+             "The only true wisdom is in knowing you know nothing. - Socrates",
+             "Knowledge speaks, but wisdom listens. - Jimi Hendrix",
+             "Wisdom is the reward you get for a lifetime of listening. - Carl Sagan"
+           ],
+           success: [
+             "Success is to be measured not so much by the position that one has reached in life. - Booker T. Washington",
+             "The secret of success is constancy to purpose. - Benjamin Disraeli",
+             "Don’t aim for success if you want it; just do what you love. - David Frost"
+           ]
+         };
+
+         document.getElementById('quoteForm').addEventListener('submit', function(e) {
+           e.preventDefault();
+           const topic = document.getElementById('topic').value.toLowerCase();
+           const quotesList = quotes[topic] || [];
+           const quotesDiv = document.getElementById('quotes');
+           quotesDiv.innerHTML = '';
+
+           if (quotesList.length > 0) {
+             const selectedQuotes = [];
+             while (selectedQuotes.length < 3 && selectedQuotes.length < quotesList.length) {
+               const randomIndex = Math.floor(Math.random() * quotesList.length);
+               if (!selectedQuotes.includes(quotesList[randomIndex])) {
+                 selectedQuotes.push(quotesList[randomIndex]);
+               }
+             }
+             selectedQuotes.forEach(quote => {
+               const p = document.createElement('p');
+               p.textContent = quote;
+               quotesDiv.appendChild(p);
+             });
+           } else {
+             quotesDiv.innerHTML = '<p>No quotes available for this topic.</p>';
+           }
+         });
+       </script>
+     </body>
+     </html>
